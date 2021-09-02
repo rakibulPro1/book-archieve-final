@@ -1,11 +1,7 @@
 
-const searchField = document.getElementById('search-field');
-const searchText = searchField.value;
-const resultCountField = document.getElementById('result-count');
-const booksContainer = document.getElementById('books-items');
-const errorField = document.getElementById('error');
-
 const searchBook = () => {
+    const searchField = document.getElementById('search-field');
+    const searchText = searchField.value;
     searchField.value = '';
 
     // load search 
@@ -17,9 +13,11 @@ const searchBook = () => {
 }
 const displaySearchBook = books => {
     //  display result count number
+    const resultCountField = document.getElementById('result-count');
     resultCountField.innerText = `${books.length} results were found`;
 
     // clear
+    const booksContainer = document.getElementById('books-items');
     booksContainer.textContent= '';
 
     // display books result
