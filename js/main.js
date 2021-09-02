@@ -3,19 +3,38 @@ const searchBook = () => {
     const searchField = document.getElementById('search-field');
     const searchText = searchField.value;
     searchField.value = '';
-
-    // load search 
-    const url = `https://openlibrary.org/search.json?q=${searchText}`;
-    fetch(url)
-    .then(res => res.json())
-    .then(data => displaySearchBook(data.docs))
+    toggleSpinner('block');
+    if(searchText === ''){
+        document.getElementById('result-count').innerText = 'No inpout given';
+        toggleSpinner('none');
+    }
+    
+    else{
+        // load search 
+        const url = `https://openlibrary.org/search.json?q=${searchText}`;
+        fetch(url)
+        .then(res => res.json())
+        .then(data => {
+        if (data.numFound === 0) {
+            document.getElementById('result-count').innerText = ' No Data Found...'
+            toggleSpinner('none');
+          }
+  
+          else {
+            displaySearchBook(data.docs)
+          }
+        })
+    }
    
+}
+const toggleSpinner = displaySpinner => {
+    document.getElementById('spinner-btn').style.display = displaySpinner;
 }
 const displaySearchBook = books => {
     //  display result count number
     const resultCountField = document.getElementById('result-count');
     resultCountField.innerText = `${books.length} results were found`;
-
+    
     // clear
     const booksContainer = document.getElementById('books-items');
     booksContainer.textContent= '';
@@ -44,6 +63,8 @@ const displaySearchBook = books => {
         </div>
         `;
         booksContainer.appendChild(div);
+        
+        toggleSpinner('none');
         
     });
 }
